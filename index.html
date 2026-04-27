@@ -18,7 +18,6 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
 .header h1 { font-size: 18px; font-weight: 700; }
 .header-sub { font-size: 12px; color: #888; margin-top: 2px; }
 
-/* 설정 화면 */
 .setup-page { max-width: 600px; margin: 0 auto; padding: 40px 20px 60px; }
 .setup-logo { text-align: center; margin-bottom: 32px; }
 .setup-logo div:first-child { font-size: 40px; margin-bottom: 12px; }
@@ -39,7 +38,6 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
 .key-input:focus { border-color: #1a1a1a; }
 .key-input::placeholder { color: #bbb; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; }
 
-/* 섹션 */
 .section { background: #fff; border-radius: 12px; margin-bottom: 12px; overflow: hidden; border: 1px solid #e8e6e2; }
 .section-title { font-size: 11px; font-weight: 700; color: #888; letter-spacing: .12em; text-transform: uppercase; padding: 14px 16px 10px; border-bottom: 1px solid #f0eeea; }
 
@@ -87,13 +85,12 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
 
 .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #ddd; border-top-color: #1a1a1a; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 6px; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
 .loading-full { text-align: center; padding: 80px 20px; color: #aaa; font-size: 14px; }
 </style>
 </head>
 <body>
 
-<!-- ── 설정 화면 ── -->
+<!-- 설정 화면 -->
 <div id="page-setup" style="display:none">
   <div class="setup-page">
     <div class="setup-logo">
@@ -101,29 +98,20 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
       <h1>D4 트래커 설정</h1>
       <p>딱 한 번만 설정하면<br>PC / 스마트폰 어디서든 사용 가능해요</p>
     </div>
-
     <div class="step-card">
       <div class="step-num">1</div>
       <div class="step-content">
         <div class="step-title">JSONBin 가입</div>
-        <div class="step-desc">
-          <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> 접속 →
-          구글 계정으로 무료 가입
-        </div>
+        <div class="step-desc"><a href="https://jsonbin.io" target="_blank">jsonbin.io</a> 접속 → 구글 계정으로 무료 가입</div>
       </div>
     </div>
-
     <div class="step-card">
       <div class="step-num">2</div>
       <div class="step-content">
-        <div class="step-title">API 키 복사</div>
-        <div class="step-desc">
-          로그인 후 상단 메뉴 <code>API Keys</code> 클릭<br>
-          → <code>Create Access Key</code> → 생성된 키 복사
-        </div>
+        <div class="step-title">Master Key 복사</div>
+        <div class="step-desc">로그인 후 왼쪽 메뉴 <code>API KEYS</code> 클릭<br>→ <code>X-Master-Key</code> 값 복사 (<code>$2b$...</code> 로 시작)</div>
       </div>
     </div>
-
     <div class="step-card">
       <div class="step-num">3</div>
       <div class="step-content">
@@ -131,23 +119,21 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
         <div class="step-desc">복사한 키를 아래 칸에 붙여넣고 시작!</div>
       </div>
     </div>
-
     <div class="key-input-wrap">
-      <div class="key-label">API Key</div>
-      <input class="key-input" id="setup-key" type="text" placeholder="여기에 API 키 붙여넣기">
+      <div class="key-label">API KEY</div>
+      <input class="key-input" id="setup-key" type="text" placeholder="여기에 Master Key 붙여넣기">
     </div>
-
     <button class="btn-primary" onclick="saveSetup()">설정 완료 → 시작하기</button>
     <div class="status" id="setup-status"></div>
   </div>
 </div>
 
-<!-- ── 로딩 ── -->
+<!-- 로딩 -->
 <div id="page-loading" style="display:none">
   <div class="loading-full"><span class="spinner"></span>불러오는 중...</div>
 </div>
 
-<!-- ── 캐릭터 목록 ── -->
+<!-- 캐릭터 목록 -->
 <div class="page" id="page-list">
   <div class="user-bar">
     <div class="user-bar-id">⚔️ <b>D4 트래커</b></div>
@@ -163,7 +149,7 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
   <button class="add-char-btn" onclick="goNewChar()">＋ 새 캐릭터 추가</button>
 </div>
 
-<!-- ── 캐릭터 생성 ── -->
+<!-- 캐릭터 생성 -->
 <div class="page" id="page-new">
   <div class="header">
     <button class="back-btn" onclick="goList()">←</button>
@@ -191,7 +177,7 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
   <div class="status" id="new-status"></div>
 </div>
 
-<!-- ── 캐릭터 상세 ── -->
+<!-- 캐릭터 상세 -->
 <div class="page" id="page-detail">
   <div class="header">
     <button class="back-btn" onclick="goList()">←</button>
@@ -203,7 +189,6 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
       <div class="header-sub" id="detail-class"></div>
     </div>
   </div>
-
   <div class="section">
     <div class="section-title">착용 장비</div>
     <div class="row"><div class="slot-icon">🗡️</div><span class="slot-label">주 무기</span><input class="row-input" id="eq-weapon1" placeholder="아이템 이름"></div>
@@ -217,7 +202,6 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
     <div class="row"><div class="slot-icon">💍</div><span class="slot-label">반지 1</span><input class="row-input" id="eq-ring1" placeholder="아이템 이름"></div>
     <div class="row"><div class="slot-icon">💍</div><span class="slot-label">반지 2</span><input class="row-input" id="eq-ring2" placeholder="아이템 이름"></div>
   </div>
-
   <button class="btn-primary" id="save-equip-btn" onclick="saveEquip()">저장하기</button>
   <button class="btn-danger" onclick="deleteChar()">이 캐릭터 삭제</button>
   <div class="status" id="detail-status"></div>
@@ -228,7 +212,7 @@ const EQ = ['weapon1','weapon2','helm','chest','gloves','pants','boots','amulet'
 const CLASS_ICONS = {'야만용사':'⚔️','도적':'🗡️','원소술사':'🔥','강령술사':'💀','드루이드':'🌿','영혼흡수자':'🌀'};
 const JSONBIN_URL = 'https://api.jsonbin.io/v3/b';
 
-let data = { chars: [] };
+let appData = { chars: [] };
 let currentCharId = null;
 let newClass = '';
 let apiKey = '';
@@ -237,9 +221,8 @@ let binId = '';
 /* ── 페이지 전환 ── */
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  ['page-setup','page-loading'].forEach(p => {
-    document.getElementById(p).style.display = 'none';
-  });
+  document.getElementById('page-setup').style.display = 'none';
+  document.getElementById('page-loading').style.display = 'none';
   const el = document.getElementById(id);
   if (el.classList.contains('page')) {
     el.classList.add('active');
@@ -249,30 +232,29 @@ function showPage(id) {
   window.scrollTo(0, 0);
 }
 
-/* ── JSONBin API ── */
-async function loadFromBin() {
-  if (!binId) return null;
+/* ── JSONBin ── */
+async function loadBin() {
   const res = await fetch(`${JSONBIN_URL}/${binId}/latest`, {
-    headers: { 'X-Master-Key': apiKey }
+    headers: { 'X-Master-Key': apiKey, 'X-Bin-Meta': 'false' }
   });
-  if (!res.ok) throw new Error('불러오기 실패');
-  const json = await res.json();
-  return json.record;
+  if (!res.ok) throw new Error('load failed');
+  return await res.json();
 }
 
-async function saveToBin(payload) {
+async function saveBin(payload) {
   if (!binId) {
-    // 처음 저장 → 새 bin 생성
+    // 새 bin 생성
     const res = await fetch(JSONBIN_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-Master-Key': apiKey,
-        'X-Bin-Name': 'D4-Tracker'
+        'X-Bin-Name': 'D4-Tracker',
+        'X-Bin-Private': 'false'
       },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('저장 실패');
+    if (!res.ok) throw new Error('create failed');
     const json = await res.json();
     binId = json.metadata.id;
     localStorage.setItem('d4-binid', binId);
@@ -285,11 +267,11 @@ async function saveToBin(payload) {
       },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('저장 실패');
+    if (!res.ok) throw new Error('save failed');
   }
 }
 
-/* ── 설정 저장 ── */
+/* ── 설정 ── */
 async function saveSetup() {
   const key = document.getElementById('setup-key').value.trim();
   if (!key) { setStatus('setup-status', 'API 키를 입력하세요', 'err'); return; }
@@ -301,14 +283,33 @@ async function saveSetup() {
   apiKey = key;
   binId = '';
 
-  // API 키 유효성 테스트 (빈 bin 생성 시도)
   try {
-    await saveToBin({ chars: [] });
+    // 같은 키로 기존에 만든 bin이 있는지 먼저 확인
+    const listRes = await fetch('https://api.jsonbin.io/v3/b?sortBy=createdAt&sortOrder=desc', {
+      headers: { 'X-Master-Key': apiKey }
+    });
+    if (!listRes.ok) throw new Error('invalid key');
+
+    const bins = await listRes.json();
+    // D4-Tracker 이름의 bin 찾기
+    const existing = Array.isArray(bins) ? bins.find(b => b.metadata && b.metadata.name === 'D4-Tracker') : null;
+
+    if (existing) {
+      binId = existing.metadata.id;
+      localStorage.setItem('d4-binid', binId);
+      // 기존 데이터 불러오기
+      const saved = await loadBin();
+      appData = saved || { chars: [] };
+    } else {
+      // 새로 만들기
+      await saveBin({ chars: [] });
+      appData = { chars: [] };
+    }
+
     localStorage.setItem('d4-apikey', apiKey);
-    data = { chars: [] };
     goList();
   } catch(e) {
-    setStatus('setup-status', 'API 키가 올바르지 않아요. 다시 확인해주세요.', 'err');
+    setStatus('setup-status', 'API 키가 올바르지 않아요. Master Key를 확인하세요.', 'err');
     apiKey = '';
   }
   btn.innerHTML = '설정 완료 → 시작하기';
@@ -328,11 +329,11 @@ function goList() {
 
 function renderList() {
   const el = document.getElementById('char-list');
-  if (!data.chars || !data.chars.length) {
+  if (!appData.chars || !appData.chars.length) {
     el.innerHTML = '<div class="empty">아직 캐릭터가 없어요<p>아래 버튼으로 추가해보세요</p></div>';
     return;
   }
-  el.innerHTML = data.chars.map(c => `
+  el.innerHTML = appData.chars.map(c => `
     <div class="char-card" onclick="goDetail(${c.id})">
       <div class="char-avatar">${CLASS_ICONS[c.class] || '?'}</div>
       <div class="char-card-info">
@@ -369,13 +370,13 @@ async function createChar() {
   btn.disabled = true;
 
   const char = { id: Date.now(), name, class: newClass, equip: {} };
-  data.chars.push(char);
+  appData.chars.push(char);
 
   try {
-    await saveToBin(data);
+    await saveBin(appData);
     goDetail(char.id);
   } catch(e) {
-    data.chars.pop();
+    appData.chars.pop();
     setStatus('new-status', '저장 실패. 다시 시도해주세요.', 'err');
   }
   btn.innerHTML = '캐릭터 생성';
@@ -385,7 +386,7 @@ async function createChar() {
 /* ── 캐릭터 상세 ── */
 function goDetail(id) {
   currentCharId = id;
-  const char = data.chars.find(c => c.id === id);
+  const char = appData.chars.find(c => c.id === id);
   if (!char) { goList(); return; }
 
   document.getElementById('detail-icon').textContent = CLASS_ICONS[char.class] || '?';
@@ -407,14 +408,14 @@ async function saveEquip() {
   btn.innerHTML = '<span class="spinner"></span>저장 중...';
   btn.disabled = true;
 
-  const char = data.chars.find(c => c.id === currentCharId);
+  const char = appData.chars.find(c => c.id === currentCharId);
   if (char) {
     char.equip = {};
     EQ.forEach(k => { char.equip[k] = document.getElementById('eq-' + k)?.value.trim() || ''; });
   }
 
   try {
-    await saveToBin(data);
+    await saveBin(appData);
     setStatus('detail-status', '✓ 저장되었습니다', 'ok');
   } catch(e) {
     setStatus('detail-status', '저장 실패. 네트워크를 확인하세요.', 'err');
@@ -426,8 +427,8 @@ async function saveEquip() {
 /* ── 캐릭터 삭제 ── */
 async function deleteChar() {
   if (!confirm('이 캐릭터를 삭제할까요?')) return;
-  data.chars = data.chars.filter(c => c.id !== currentCharId);
-  await saveToBin(data);
+  appData.chars = appData.chars.filter(c => c.id !== currentCharId);
+  await saveBin(appData);
   goList();
 }
 
@@ -451,11 +452,32 @@ async function init() {
   }
 
   try {
-    const saved = await loadFromBin();
-    if (saved) data = saved;
-    goList();
+    if (binId) {
+      const saved = await loadBin();
+      appData = saved || { chars: [] };
+      goList();
+    } else {
+      // binId 없으면 기존 bin 찾기
+      const listRes = await fetch('https://api.jsonbin.io/v3/b?sortBy=createdAt&sortOrder=desc', {
+        headers: { 'X-Master-Key': apiKey }
+      });
+      if (!listRes.ok) throw new Error('invalid key');
+      const bins = await listRes.json();
+      const existing = Array.isArray(bins) ? bins.find(b => b.metadata && b.metadata.name === 'D4-Tracker') : null;
+      if (existing) {
+        binId = existing.metadata.id;
+        localStorage.setItem('d4-binid', binId);
+        const saved = await loadBin();
+        appData = saved || { chars: [] };
+      } else {
+        await saveBin({ chars: [] });
+        appData = { chars: [] };
+      }
+      goList();
+    }
   } catch(e) {
-    // bin이 없거나 키 오류 → 설정 화면으로
+    localStorage.removeItem('d4-apikey');
+    localStorage.removeItem('d4-binid');
     showPage('page-setup');
   }
 }
