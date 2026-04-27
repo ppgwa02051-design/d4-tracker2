@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>D4 트래커</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1a1a; min-height: 100vh; }
+
+.page { display: none; max-width: 600px; margin: 0 auto; padding: 20px 16px 60px; }
+.page.active { display: block; }
+
+.header { display: flex; align-items: center; margin-bottom: 20px; gap: 12px; }
+.back-btn { width: 36px; height: 36px; border-radius: 8px; border: 1px solid #e0ddd8; background: #fff; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.back-btn:active { opacity: .6; }
+.header h1 { font-size: 18px; font-weight: 700; }
+.header-sub { font-size: 12px; color: #888; margin-top: 2px; }
+
+/* 설정 화면 */
+.setup-page { max-width: 600px; margin: 0 auto; padding: 40px 20px 60px; }
+.setup-logo { text-align: center; margin-bottom: 32px; }
+.setup-logo div:first-child { font-size: 40px; margin-bottom: 12px; }
+.setup-logo h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.setup-logo p { font-size: 13px; color: #888; line-height: 1.7; }
+
+.step-card { background: #fff; border: 1px solid #e8e6e2; border-radius: 12px; padding: 18px; margin-bottom: 10px; display: flex; gap: 14px; align-items: flex-start; }
+.step-num { width: 28px; height: 28px; border-radius: 50%; background: #1a1a1a; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-content { flex: 1; }
+.step-title { font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+.step-desc { font-size: 13px; color: #666; line-height: 1.6; }
+.step-desc a { color: #1a73e8; }
+.step-desc code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-family: monospace; }
+
+.key-input-wrap { background: #fff; border: 1px solid #e8e6e2; border-radius: 12px; padding: 18px; margin: 16px 0; }
+.key-label { font-size: 12px; font-weight: 700; color: #888; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+.key-input { width: 100%; padding: 12px 14px; border: 1px solid #e0ddd8; border-radius: 10px; font-family: monospace; font-size: 13px; color: #1a1a1a; background: #fafafa; outline: none; }
+.key-input:focus { border-color: #1a1a1a; }
+.key-input::placeholder { color: #bbb; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; }
+
+/* 섹션 */
+.section { background: #fff; border-radius: 12px; margin-bottom: 12px; overflow: hidden; border: 1px solid #e8e6e2; }
+.section-title { font-size: 11px; font-weight: 700; color: #888; letter-spacing: .12em; text-transform: uppercase; padding: 14px 16px 10px; border-bottom: 1px solid #f0eeea; }
+
+.row { display: flex; align-items: center; border-bottom: 1px solid #f0eeea; min-height: 50px; }
+.row:last-child { border-bottom: none; }
+.row-label { width: 80px; flex-shrink: 0; font-size: 13px; color: #666; padding: 0 0 0 16px; font-weight: 500; }
+.row-input { flex: 1; border: none; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #1a1a1a; background: transparent; padding: 14px 16px; width: 100%; }
+.row-input::placeholder { color: #bbb; font-size: 13px; }
+
+.class-wrap { padding: 10px 14px 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.cls-chip { padding: 7px 13px; border-radius: 20px; font-size: 13px; font-weight: 500; border: 1.5px solid #e0ddd8; background: #faf9f7; color: #555; cursor: pointer; transition: all .15s; user-select: none; }
+.cls-chip:active { transform: scale(.96); }
+.cls-chip.on { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+
+.char-card { background: #fff; border: 1px solid #e8e6e2; border-radius: 12px; padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all .15s; }
+.char-card:active { transform: scale(.98); opacity: .8; }
+.char-avatar { width: 46px; height: 46px; border-radius: 10px; background: #f0eeea; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.char-card-info { flex: 1; min-width: 0; }
+.char-card-name { font-size: 15px; font-weight: 700; margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.char-card-class { font-size: 12px; color: #888; }
+.char-card-arrow { color: #bbb; font-size: 20px; flex-shrink: 0; }
+
+.slot-icon { width: 28px; height: 28px; background: #f5f4f2; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; margin-left: 14px; }
+.slot-label { width: 68px; flex-shrink: 0; font-size: 13px; color: #666; padding-left: 10px; font-weight: 500; }
+
+.btn-primary { width: 100%; padding: 15px; border-radius: 12px; border: none; background: #1a1a1a; color: #fff; font-family: 'Noto Sans KR', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity .15s; }
+.btn-primary:active { opacity: .8; }
+.btn-primary:disabled { opacity: .4; }
+.btn-danger { width: 100%; padding: 13px; border-radius: 12px; border: 1px solid #e0ddd8; background: #fff; color: #c0392b; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 8px; }
+.btn-danger:active { opacity: .7; }
+.add-char-btn { width: 100%; padding: 15px; border-radius: 12px; border: 1.5px dashed #ccc; background: transparent; color: #888; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 4px; }
+.add-char-btn:active { opacity: .6; }
+
+.user-bar { display: flex; align-items: center; justify-content: space-between; background: #fff; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; border: 1px solid #e8e6e2; }
+.user-bar-id { font-size: 12px; color: #888; }
+.user-bar-id b { color: #1a1a1a; font-size: 13px; }
+.user-bar-btn { font-size: 12px; color: #888; text-decoration: underline; cursor: pointer; background: none; border: none; font-family: inherit; }
+
+.status { text-align: center; font-size: 13px; color: #888; margin-top: 10px; min-height: 20px; }
+.status.ok { color: #2d7a3a; }
+.status.err { color: #c0392b; }
+
+.empty { text-align: center; padding: 48px 0; color: #aaa; font-size: 14px; }
+.empty p { margin-top: 6px; font-size: 12px; }
+
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #ddd; border-top-color: #1a1a1a; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 6px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-full { text-align: center; padding: 80px 20px; color: #aaa; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- ── 설정 화면 ── -->
+<div id="page-setup" style="display:none">
+  <div class="setup-page">
+    <div class="setup-logo">
+      <div>⚔️</div>
+      <h1>D4 트래커 설정</h1>
+      <p>딱 한 번만 설정하면<br>PC / 스마트폰 어디서든 사용 가능해요</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">JSONBin 가입</div>
+        <div class="step-desc">
+          <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> 접속 →
+          구글 계정으로 무료 가입
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">API 키 복사</div>
+        <div class="step-desc">
+          로그인 후 상단 메뉴 <code>API Keys</code> 클릭<br>
+          → <code>Create Access Key</code> → 생성된 키 복사
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">아래에 붙여넣기</div>
+        <div class="step-desc">복사한 키를 아래 칸에 붙여넣고 시작!</div>
+      </div>
+    </div>
+
+    <div class="key-input-wrap">
+      <div class="key-label">API Key</div>
+      <input class="key-input" id="setup-key" type="text" placeholder="여기에 API 키 붙여넣기">
+    </div>
+
+    <button class="btn-primary" onclick="saveSetup()">설정 완료 → 시작하기</button>
+    <div class="status" id="setup-status"></div>
+  </div>
+</div>
+
+<!-- ── 로딩 ── -->
+<div id="page-loading" style="display:none">
+  <div class="loading-full"><span class="spinner"></span>불러오는 중...</div>
+</div>
+
+<!-- ── 캐릭터 목록 ── -->
+<div class="page" id="page-list">
+  <div class="user-bar">
+    <div class="user-bar-id">⚔️ <b>D4 트래커</b></div>
+    <button class="user-bar-btn" onclick="goSetup()">설정 변경</button>
+  </div>
+  <div class="header">
+    <div>
+      <h1>내 캐릭터</h1>
+      <div class="header-sub">캐릭터를 선택하세요</div>
+    </div>
+  </div>
+  <div id="char-list"></div>
+  <button class="add-char-btn" onclick="goNewChar()">＋ 새 캐릭터 추가</button>
+</div>
+
+<!-- ── 캐릭터 생성 ── -->
+<div class="page" id="page-new">
+  <div class="header">
+    <button class="back-btn" onclick="goList()">←</button>
+    <div><h1>새 캐릭터</h1></div>
+  </div>
+  <div class="section">
+    <div class="section-title">캐릭터 정보</div>
+    <div class="row">
+      <span class="row-label">캐릭터명</span>
+      <input class="row-input" id="new-name" type="text" placeholder="이름 입력" maxlength="20">
+    </div>
+    <div class="row" style="align-items:flex-start; padding:4px 0">
+      <span class="row-label" style="padding-top:18px">직업</span>
+      <div class="class-wrap" style="padding-left:0; flex:1">
+        <div class="cls-chip" onclick="pickNew(this,'야만용사')">⚔️ 야만용사</div>
+        <div class="cls-chip" onclick="pickNew(this,'도적')">🗡️ 도적</div>
+        <div class="cls-chip" onclick="pickNew(this,'원소술사')">🔥 원소술사</div>
+        <div class="cls-chip" onclick="pickNew(this,'강령술사')">💀 강령술사</div>
+        <div class="cls-chip" onclick="pickNew(this,'드루이드')">🌿 드루이드</div>
+        <div class="cls-chip" onclick="pickNew(this,'영혼흡수자')">🌀 영혼흡수자</div>
+      </div>
+    </div>
+  </div>
+  <button class="btn-primary" onclick="createChar()">캐릭터 생성</button>
+  <div class="status" id="new-status"></div>
+</div>
+
+<!-- ── 캐릭터 상세 ── -->
+<div class="page" id="page-detail">
+  <div class="header">
+    <button class="back-btn" onclick="goList()">←</button>
+    <div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span id="detail-icon" style="font-size:20px"></span>
+        <h1 id="detail-name" style="font-size:17px"></h1>
+      </div>
+      <div class="header-sub" id="detail-class"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">착용 장비</div>
+    <div class="row"><div class="slot-icon">🗡️</div><span class="slot-label">주 무기</span><input class="row-input" id="eq-weapon1" placeholder="아이템 이름"></div>
+    <div class="row"><div class="slot-icon">🛡️</div><span class="slot-label">보조 무기</span><input class="row-input" id="eq-weapon2" placeholder="아이템 이름"></div>
+    <div class="row"><div class="slot-icon">🪖</div><span class="slot-label">투구</span><input class="row-input" id="eq-helm" placeholder="아이템 이름"></div>
+    <div class="row"><div class="slot-icon">🧥</div><span class="slot-label">흉갑</span><input class="row-input" id="eq-chest" placeholder="아이템 이름"></div>
+    <div class="row"><div class="slot-icon">🧤</div><span class="slot-label">장갑</span><input class="row-input" id="eq-gloves" placeholder="아이템 이름"></div>
+    <div class="row"><div class="slot-icon">👖</div><span class="slot-label">바지</span><input class="row-input" id="eq-pants" placeholder="아이템 이름"></div>
+    <div class="row"><div class="slot-icon">👢</div><span class="slot-label">신발</span><input class="row-input" id="eq-boots" placeholder="아이템 이름"></div>
+    <div class="row"><div class="slot-icon">📿</div><span class="slot-label">목걸이</span><input class="row-input" id="eq-amulet" placeholder="아이템 이름"></div>
+    <div class="row"><div class="slot-icon">💍</div><span class="slot-label">반지 1</span><input class="row-input" id="eq-ring1" placeholder="아이템 이름"></div>
+    <div class="row"><div class="slot-icon">💍</div><span class="slot-label">반지 2</span><input class="row-input" id="eq-ring2" placeholder="아이템 이름"></div>
+  </div>
+
+  <button class="btn-primary" id="save-equip-btn" onclick="saveEquip()">저장하기</button>
+  <button class="btn-danger" onclick="deleteChar()">이 캐릭터 삭제</button>
+  <div class="status" id="detail-status"></div>
+</div>
+
+<script>
+const EQ = ['weapon1','weapon2','helm','chest','gloves','pants','boots','amulet','ring1','ring2'];
+const CLASS_ICONS = {'야만용사':'⚔️','도적':'🗡️','원소술사':'🔥','강령술사':'💀','드루이드':'🌿','영혼흡수자':'🌀'};
+const JSONBIN_URL = 'https://api.jsonbin.io/v3/b';
+
+let data = { chars: [] };
+let currentCharId = null;
+let newClass = '';
+let apiKey = '';
+let binId = '';
+
+/* ── 페이지 전환 ── */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  ['page-setup','page-loading'].forEach(p => {
+    document.getElementById(p).style.display = 'none';
+  });
+  const el = document.getElementById(id);
+  if (el.classList.contains('page')) {
+    el.classList.add('active');
+  } else {
+    el.style.display = 'block';
+  }
+  window.scrollTo(0, 0);
+}
+
+/* ── JSONBin API ── */
+async function loadFromBin() {
+  if (!binId) return null;
+  const res = await fetch(`${JSONBIN_URL}/${binId}/latest`, {
+    headers: { 'X-Master-Key': apiKey }
+  });
+  if (!res.ok) throw new Error('불러오기 실패');
+  const json = await res.json();
+  return json.record;
+}
+
+async function saveToBin(payload) {
+  if (!binId) {
+    // 처음 저장 → 새 bin 생성
+    const res = await fetch(JSONBIN_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': apiKey,
+        'X-Bin-Name': 'D4-Tracker'
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('저장 실패');
+    const json = await res.json();
+    binId = json.metadata.id;
+    localStorage.setItem('d4-binid', binId);
+  } else {
+    const res = await fetch(`${JSONBIN_URL}/${binId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': apiKey
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('저장 실패');
+  }
+}
+
+/* ── 설정 저장 ── */
+async function saveSetup() {
+  const key = document.getElementById('setup-key').value.trim();
+  if (!key) { setStatus('setup-status', 'API 키를 입력하세요', 'err'); return; }
+
+  const btn = document.querySelector('#page-setup .btn-primary');
+  btn.innerHTML = '<span class="spinner"></span>확인 중...';
+  btn.disabled = true;
+
+  apiKey = key;
+  binId = '';
+
+  // API 키 유효성 테스트 (빈 bin 생성 시도)
+  try {
+    await saveToBin({ chars: [] });
+    localStorage.setItem('d4-apikey', apiKey);
+    data = { chars: [] };
+    goList();
+  } catch(e) {
+    setStatus('setup-status', 'API 키가 올바르지 않아요. 다시 확인해주세요.', 'err');
+    apiKey = '';
+  }
+  btn.innerHTML = '설정 완료 → 시작하기';
+  btn.disabled = false;
+}
+
+function goSetup() {
+  document.getElementById('setup-key').value = apiKey || '';
+  showPage('page-setup');
+}
+
+/* ── 캐릭터 목록 ── */
+function goList() {
+  renderList();
+  showPage('page-list');
+}
+
+function renderList() {
+  const el = document.getElementById('char-list');
+  if (!data.chars || !data.chars.length) {
+    el.innerHTML = '<div class="empty">아직 캐릭터가 없어요<p>아래 버튼으로 추가해보세요</p></div>';
+    return;
+  }
+  el.innerHTML = data.chars.map(c => `
+    <div class="char-card" onclick="goDetail(${c.id})">
+      <div class="char-avatar">${CLASS_ICONS[c.class] || '?'}</div>
+      <div class="char-card-info">
+        <div class="char-card-name">${c.name}</div>
+        <div class="char-card-class">${c.class || '직업 미설정'}</div>
+      </div>
+      <div class="char-card-arrow">›</div>
+    </div>
+  `).join('');
+}
+
+/* ── 새 캐릭터 ── */
+function goNewChar() {
+  newClass = '';
+  document.getElementById('new-name').value = '';
+  document.querySelectorAll('#page-new .cls-chip').forEach(c => c.classList.remove('on'));
+  document.getElementById('new-status').textContent = '';
+  showPage('page-new');
+}
+
+function pickNew(el, name) {
+  document.querySelectorAll('#page-new .cls-chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  newClass = name;
+}
+
+async function createChar() {
+  const name = document.getElementById('new-name').value.trim();
+  if (!name) { setStatus('new-status', '캐릭터명을 입력하세요', 'err'); return; }
+  if (!newClass) { setStatus('new-status', '직업을 선택하세요', 'err'); return; }
+
+  const btn = document.querySelector('#page-new .btn-primary');
+  btn.innerHTML = '<span class="spinner"></span>생성 중...';
+  btn.disabled = true;
+
+  const char = { id: Date.now(), name, class: newClass, equip: {} };
+  data.chars.push(char);
+
+  try {
+    await saveToBin(data);
+    goDetail(char.id);
+  } catch(e) {
+    data.chars.pop();
+    setStatus('new-status', '저장 실패. 다시 시도해주세요.', 'err');
+  }
+  btn.innerHTML = '캐릭터 생성';
+  btn.disabled = false;
+}
+
+/* ── 캐릭터 상세 ── */
+function goDetail(id) {
+  currentCharId = id;
+  const char = data.chars.find(c => c.id === id);
+  if (!char) { goList(); return; }
+
+  document.getElementById('detail-icon').textContent = CLASS_ICONS[char.class] || '?';
+  document.getElementById('detail-name').textContent = char.name;
+  document.getElementById('detail-class').textContent = char.class || '';
+  document.getElementById('detail-status').textContent = '';
+
+  EQ.forEach(k => {
+    const el = document.getElementById('eq-' + k);
+    if (el) el.value = char.equip?.[k] || '';
+  });
+
+  showPage('page-detail');
+}
+
+/* ── 장비 저장 ── */
+async function saveEquip() {
+  const btn = document.getElementById('save-equip-btn');
+  btn.innerHTML = '<span class="spinner"></span>저장 중...';
+  btn.disabled = true;
+
+  const char = data.chars.find(c => c.id === currentCharId);
+  if (char) {
+    char.equip = {};
+    EQ.forEach(k => { char.equip[k] = document.getElementById('eq-' + k)?.value.trim() || ''; });
+  }
+
+  try {
+    await saveToBin(data);
+    setStatus('detail-status', '✓ 저장되었습니다', 'ok');
+  } catch(e) {
+    setStatus('detail-status', '저장 실패. 네트워크를 확인하세요.', 'err');
+  }
+  btn.innerHTML = '저장하기';
+  btn.disabled = false;
+}
+
+/* ── 캐릭터 삭제 ── */
+async function deleteChar() {
+  if (!confirm('이 캐릭터를 삭제할까요?')) return;
+  data.chars = data.chars.filter(c => c.id !== currentCharId);
+  await saveToBin(data);
+  goList();
+}
+
+/* ── 상태 메시지 ── */
+function setStatus(id, msg, type) {
+  const s = document.getElementById(id);
+  if (!s) return;
+  s.textContent = msg; s.className = 'status ' + (type || '');
+  if (type === 'ok') setTimeout(() => { s.textContent = ''; s.className = 'status'; }, 2500);
+}
+
+/* ── 초기화 ── */
+async function init() {
+  showPage('page-loading');
+  apiKey = localStorage.getItem('d4-apikey') || '';
+  binId  = localStorage.getItem('d4-binid')  || '';
+
+  if (!apiKey) {
+    showPage('page-setup');
+    return;
+  }
+
+  try {
+    const saved = await loadFromBin();
+    if (saved) data = saved;
+    goList();
+  } catch(e) {
+    // bin이 없거나 키 오류 → 설정 화면으로
+    showPage('page-setup');
+  }
+}
+
+init();
+</script>
+</body>
+</html>
