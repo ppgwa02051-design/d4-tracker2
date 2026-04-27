@@ -215,7 +215,7 @@ const JSONBIN_URL = 'https://api.jsonbin.io/v3/b';
 let appData = { chars: [] };
 let currentCharId = null;
 let newClass = '';
-let apiKey = '';
+let apiKey = '$2a$10$46dW082tN.zIeE0mlbcReeYA4pE5ZfCp0DLkKEcfQqBcWlu0nSSGS';
 let binId = '';
 
 /* ── 페이지 전환 ── */
@@ -446,7 +446,7 @@ async function init() {
   apiKey = localStorage.getItem('d4-apikey') || '';
   binId  = localStorage.getItem('d4-binid')  || '';
 
-  if (!apiKey) {
+  if (false && !apiKey) {
     showPage('page-setup');
     return;
   }
