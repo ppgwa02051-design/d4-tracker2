@@ -443,7 +443,7 @@ function setStatus(id, msg, type) {
 /* ── 초기화 ── */
 async function init() {
   showPage('page-loading');
-  apiKey = localStorage.getItem('d4-apikey') || '';
+  apiKey = apiKey || localStorage.getItem("d4-apikey") || "";
   binId  = localStorage.getItem('d4-binid')  || '';
 
   if (false && !apiKey) {
