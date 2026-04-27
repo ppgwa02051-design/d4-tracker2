@@ -173,7 +173,10 @@ async function saveBin(payload) {
       headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('save failed');
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`HTTP ${res.status}: ${errText}`);
+    }
   }
 }
 
@@ -224,7 +227,7 @@ async function createChar() {
     goDetail(char.id);
   } catch(e) {
     appData.chars.pop();
-    setStatus('new-status', '저장 실패. 다시 시도해주세요.', 'err');
+    setStatus('new-status', '저장 실패: ' + e.message, 'err');
   }
   btn.innerHTML = '캐릭터 생성';
   btn.disabled = false;
@@ -258,7 +261,7 @@ async function saveEquip() {
     await saveBin(appData);
     setStatus('detail-status', '✓ 저장되었습니다', 'ok');
   } catch(e) {
-    setStatus('detail-status', '저장 실패. 네트워크를 확인하세요.', 'err');
+    setStatus('detail-status', '저장 실패: ' + e.message, 'err');
   }
   btn.innerHTML = '저장하기';
   btn.disabled = false;
