@@ -159,11 +159,15 @@ async function saveBin(payload) {
       headers: {
         'Content-Type': 'application/json',
         'X-Master-Key': API_KEY,
-        'X-Bin-Name': 'D4-Tracker'
+        'X-Bin-Name': 'D4-Tracker',
+        'X-Bin-Private': 'true'
       },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('create failed');
+    if (!res.ok) {
+      const t = await res.text();
+      throw new Error(`create ${res.status}: ${t}`);
+    }
     const json = await res.json();
     binId = json.metadata.id;
     localStorage.setItem('d4-binid', binId);
@@ -286,21 +290,12 @@ async function init() {
     if (binId) {
       const saved = await loadBin();
       appData = saved || { chars: [] };
-    } else {
-      const listRes = await fetch('https://api.jsonbin.io/v3/b?sortBy=createdAt&sortOrder=desc', {
-        headers: { 'X-Master-Key': API_KEY }
-      });
-      const bins = await listRes.json();
-      const existing = Array.isArray(bins) ? bins.find(b => b.metadata?.name === 'D4-Tracker') : null;
-      if (existing) {
-        binId = existing.metadata.id;
-        localStorage.setItem('d4-binid', binId);
-        const saved = await loadBin();
-        appData = saved || { chars: [] };
-      }
     }
+    // binId 없으면 첫 캐릭터 생성 시 자동으로 만들어짐
   } catch(e) {
     console.log('init error:', e);
+    binId = '';
+    localStorage.removeItem('d4-binid');
   }
   goList();
 }
