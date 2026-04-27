@@ -8,50 +8,24 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1a1a; min-height: 100vh; }
-
 .page { display: none; max-width: 600px; margin: 0 auto; padding: 20px 16px 60px; }
 .page.active { display: block; }
-
 .header { display: flex; align-items: center; margin-bottom: 20px; gap: 12px; }
 .back-btn { width: 36px; height: 36px; border-radius: 8px; border: 1px solid #e0ddd8; background: #fff; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .back-btn:active { opacity: .6; }
 .header h1 { font-size: 18px; font-weight: 700; }
 .header-sub { font-size: 12px; color: #888; margin-top: 2px; }
-
-.setup-page { max-width: 600px; margin: 0 auto; padding: 40px 20px 60px; }
-.setup-logo { text-align: center; margin-bottom: 32px; }
-.setup-logo div:first-child { font-size: 40px; margin-bottom: 12px; }
-.setup-logo h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-.setup-logo p { font-size: 13px; color: #888; line-height: 1.7; }
-
-.step-card { background: #fff; border: 1px solid #e8e6e2; border-radius: 12px; padding: 18px; margin-bottom: 10px; display: flex; gap: 14px; align-items: flex-start; }
-.step-num { width: 28px; height: 28px; border-radius: 50%; background: #1a1a1a; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-.step-content { flex: 1; }
-.step-title { font-size: 14px; font-weight: 700; margin-bottom: 5px; }
-.step-desc { font-size: 13px; color: #666; line-height: 1.6; }
-.step-desc a { color: #1a73e8; }
-.step-desc code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-family: monospace; }
-
-.key-input-wrap { background: #fff; border: 1px solid #e8e6e2; border-radius: 12px; padding: 18px; margin: 16px 0; }
-.key-label { font-size: 12px; font-weight: 700; color: #888; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
-.key-input { width: 100%; padding: 12px 14px; border: 1px solid #e0ddd8; border-radius: 10px; font-family: monospace; font-size: 13px; color: #1a1a1a; background: #fafafa; outline: none; }
-.key-input:focus { border-color: #1a1a1a; }
-.key-input::placeholder { color: #bbb; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; }
-
 .section { background: #fff; border-radius: 12px; margin-bottom: 12px; overflow: hidden; border: 1px solid #e8e6e2; }
 .section-title { font-size: 11px; font-weight: 700; color: #888; letter-spacing: .12em; text-transform: uppercase; padding: 14px 16px 10px; border-bottom: 1px solid #f0eeea; }
-
 .row { display: flex; align-items: center; border-bottom: 1px solid #f0eeea; min-height: 50px; }
 .row:last-child { border-bottom: none; }
 .row-label { width: 80px; flex-shrink: 0; font-size: 13px; color: #666; padding: 0 0 0 16px; font-weight: 500; }
 .row-input { flex: 1; border: none; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #1a1a1a; background: transparent; padding: 14px 16px; width: 100%; }
 .row-input::placeholder { color: #bbb; font-size: 13px; }
-
 .class-wrap { padding: 10px 14px 14px; display: flex; flex-wrap: wrap; gap: 8px; }
 .cls-chip { padding: 7px 13px; border-radius: 20px; font-size: 13px; font-weight: 500; border: 1.5px solid #e0ddd8; background: #faf9f7; color: #555; cursor: pointer; transition: all .15s; user-select: none; }
 .cls-chip:active { transform: scale(.96); }
 .cls-chip.on { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
-
 .char-card { background: #fff; border: 1px solid #e8e6e2; border-radius: 12px; padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all .15s; }
 .char-card:active { transform: scale(.98); opacity: .8; }
 .char-avatar { width: 46px; height: 46px; border-radius: 10px; background: #f0eeea; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
@@ -59,10 +33,8 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
 .char-card-name { font-size: 15px; font-weight: 700; margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .char-card-class { font-size: 12px; color: #888; }
 .char-card-arrow { color: #bbb; font-size: 20px; flex-shrink: 0; }
-
 .slot-icon { width: 28px; height: 28px; background: #f5f4f2; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; margin-left: 14px; }
 .slot-label { width: 68px; flex-shrink: 0; font-size: 13px; color: #666; padding-left: 10px; font-weight: 500; }
-
 .btn-primary { width: 100%; padding: 15px; border-radius: 12px; border: none; background: #1a1a1a; color: #fff; font-family: 'Noto Sans KR', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity .15s; }
 .btn-primary:active { opacity: .8; }
 .btn-primary:disabled { opacity: .4; }
@@ -70,78 +42,25 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
 .btn-danger:active { opacity: .7; }
 .add-char-btn { width: 100%; padding: 15px; border-radius: 12px; border: 1.5px dashed #ccc; background: transparent; color: #888; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 4px; }
 .add-char-btn:active { opacity: .6; }
-
-.user-bar { display: flex; align-items: center; justify-content: space-between; background: #fff; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; border: 1px solid #e8e6e2; }
-.user-bar-id { font-size: 12px; color: #888; }
-.user-bar-id b { color: #1a1a1a; font-size: 13px; }
-.user-bar-btn { font-size: 12px; color: #888; text-decoration: underline; cursor: pointer; background: none; border: none; font-family: inherit; }
-
 .status { text-align: center; font-size: 13px; color: #888; margin-top: 10px; min-height: 20px; }
 .status.ok { color: #2d7a3a; }
 .status.err { color: #c0392b; }
-
 .empty { text-align: center; padding: 48px 0; color: #aaa; font-size: 14px; }
 .empty p { margin-top: 6px; font-size: 12px; }
-
 .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #ddd; border-top-color: #1a1a1a; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 6px; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.loading-full { text-align: center; padding: 80px 20px; color: #aaa; font-size: 14px; }
+.loading-full { max-width:600px; margin:0 auto; text-align: center; padding: 80px 20px; color: #aaa; font-size: 14px; }
 </style>
 </head>
 <body>
 
-<!-- 설정 화면 -->
-<div id="page-setup" style="display:none">
-  <div class="setup-page">
-    <div class="setup-logo">
-      <div>⚔️</div>
-      <h1>D4 트래커 설정</h1>
-      <p>딱 한 번만 설정하면<br>PC / 스마트폰 어디서든 사용 가능해요</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <div class="step-title">JSONBin 가입</div>
-        <div class="step-desc"><a href="https://jsonbin.io" target="_blank">jsonbin.io</a> 접속 → 구글 계정으로 무료 가입</div>
-      </div>
-    </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <div class="step-title">Master Key 복사</div>
-        <div class="step-desc">로그인 후 왼쪽 메뉴 <code>API KEYS</code> 클릭<br>→ <code>X-Master-Key</code> 값 복사 (<code>$2b$...</code> 로 시작)</div>
-      </div>
-    </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <div class="step-title">아래에 붙여넣기</div>
-        <div class="step-desc">복사한 키를 아래 칸에 붙여넣고 시작!</div>
-      </div>
-    </div>
-    <div class="key-input-wrap">
-      <div class="key-label">API KEY</div>
-      <input class="key-input" id="setup-key" type="text" placeholder="여기에 Master Key 붙여넣기">
-    </div>
-    <button class="btn-primary" onclick="saveSetup()">설정 완료 → 시작하기</button>
-    <div class="status" id="setup-status"></div>
-  </div>
-</div>
-
-<!-- 로딩 -->
-<div id="page-loading" style="display:none">
-  <div class="loading-full"><span class="spinner"></span>불러오는 중...</div>
-</div>
+<div id="page-loading" class="loading-full"><span class="spinner"></span>불러오는 중...</div>
 
 <!-- 캐릭터 목록 -->
 <div class="page" id="page-list">
-  <div class="user-bar">
-    <div class="user-bar-id">⚔️ <b>D4 트래커</b></div>
-    <button class="user-bar-btn" onclick="goSetup()">설정 변경</button>
-  </div>
   <div class="header">
     <div>
-      <h1>내 캐릭터</h1>
+      <h1>⚔️ D4 트래커</h1>
       <div class="header-sub">캐릭터를 선택하세요</div>
     </div>
   </div>
@@ -208,34 +127,26 @@ body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f2; color: #1a1
 </div>
 
 <script>
+const API_KEY = '$2a$10$46dW082tN.zIeE0mlbcReeYA4pE5ZfCp0DLkKEcfQqBcWlu0nSSGS';
+const BIN_URL = 'https://api.jsonbin.io/v3/b';
 const EQ = ['weapon1','weapon2','helm','chest','gloves','pants','boots','amulet','ring1','ring2'];
 const CLASS_ICONS = {'야만용사':'⚔️','도적':'🗡️','원소술사':'🔥','강령술사':'💀','드루이드':'🌿','영혼흡수자':'🌀'};
-const JSONBIN_URL = 'https://api.jsonbin.io/v3/b';
 
 let appData = { chars: [] };
 let currentCharId = null;
 let newClass = '';
-let apiKey = '$2a$10$46dW082tN.zIeE0mlbcReeYA4pE5ZfCp0DLkKEcfQqBcWlu0nSSGS';
-let binId = '';
+let binId = localStorage.getItem('d4-binid') || '';
 
-/* ── 페이지 전환 ── */
 function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-setup').style.display = 'none';
   document.getElementById('page-loading').style.display = 'none';
-  const el = document.getElementById(id);
-  if (el.classList.contains('page')) {
-    el.classList.add('active');
-  } else {
-    el.style.display = 'block';
-  }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
 }
 
-/* ── JSONBin ── */
 async function loadBin() {
-  const res = await fetch(`${JSONBIN_URL}/${binId}/latest`, {
-    headers: { 'X-Master-Key': apiKey, 'X-Bin-Meta': 'false' }
+  const res = await fetch(`${BIN_URL}/${binId}/latest`, {
+    headers: { 'X-Master-Key': API_KEY, 'X-Bin-Meta': 'false' }
   });
   if (!res.ok) throw new Error('load failed');
   return await res.json();
@@ -243,14 +154,12 @@ async function loadBin() {
 
 async function saveBin(payload) {
   if (!binId) {
-    // 새 bin 생성
-    const res = await fetch(JSONBIN_URL, {
+    const res = await fetch(BIN_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Master-Key': apiKey,
-        'X-Bin-Name': 'D4-Tracker',
-        'X-Bin-Private': 'false'
+        'X-Master-Key': API_KEY,
+        'X-Bin-Name': 'D4-Tracker'
       },
       body: JSON.stringify(payload)
     });
@@ -259,73 +168,16 @@ async function saveBin(payload) {
     binId = json.metadata.id;
     localStorage.setItem('d4-binid', binId);
   } else {
-    const res = await fetch(`${JSONBIN_URL}/${binId}`, {
+    const res = await fetch(`${BIN_URL}/${binId}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': apiKey
-      },
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
       body: JSON.stringify(payload)
     });
     if (!res.ok) throw new Error('save failed');
   }
 }
 
-/* ── 설정 ── */
-async function saveSetup() {
-  const key = document.getElementById('setup-key').value.trim();
-  if (!key) { setStatus('setup-status', 'API 키를 입력하세요', 'err'); return; }
-
-  const btn = document.querySelector('#page-setup .btn-primary');
-  btn.innerHTML = '<span class="spinner"></span>확인 중...';
-  btn.disabled = true;
-
-  apiKey = key;
-  binId = '';
-
-  try {
-    // 같은 키로 기존에 만든 bin이 있는지 먼저 확인
-    const listRes = await fetch('https://api.jsonbin.io/v3/b?sortBy=createdAt&sortOrder=desc', {
-      headers: { 'X-Master-Key': apiKey }
-    });
-    if (!listRes.ok) throw new Error('invalid key');
-
-    const bins = await listRes.json();
-    // D4-Tracker 이름의 bin 찾기
-    const existing = Array.isArray(bins) ? bins.find(b => b.metadata && b.metadata.name === 'D4-Tracker') : null;
-
-    if (existing) {
-      binId = existing.metadata.id;
-      localStorage.setItem('d4-binid', binId);
-      // 기존 데이터 불러오기
-      const saved = await loadBin();
-      appData = saved || { chars: [] };
-    } else {
-      // 새로 만들기
-      await saveBin({ chars: [] });
-      appData = { chars: [] };
-    }
-
-    localStorage.setItem('d4-apikey', apiKey);
-    goList();
-  } catch(e) {
-    setStatus('setup-status', 'API 키가 올바르지 않아요. Master Key를 확인하세요.', 'err');
-    apiKey = '';
-  }
-  btn.innerHTML = '설정 완료 → 시작하기';
-  btn.disabled = false;
-}
-
-function goSetup() {
-  document.getElementById('setup-key').value = apiKey || '';
-  showPage('page-setup');
-}
-
-/* ── 캐릭터 목록 ── */
-function goList() {
-  renderList();
-  showPage('page-list');
-}
+function goList() { renderList(); showPage('page-list'); }
 
 function renderList() {
   const el = document.getElementById('char-list');
@@ -341,11 +193,9 @@ function renderList() {
         <div class="char-card-class">${c.class || '직업 미설정'}</div>
       </div>
       <div class="char-card-arrow">›</div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-/* ── 새 캐릭터 ── */
 function goNewChar() {
   newClass = '';
   document.getElementById('new-name').value = '';
@@ -364,14 +214,11 @@ async function createChar() {
   const name = document.getElementById('new-name').value.trim();
   if (!name) { setStatus('new-status', '캐릭터명을 입력하세요', 'err'); return; }
   if (!newClass) { setStatus('new-status', '직업을 선택하세요', 'err'); return; }
-
   const btn = document.querySelector('#page-new .btn-primary');
   btn.innerHTML = '<span class="spinner"></span>생성 중...';
   btn.disabled = true;
-
   const char = { id: Date.now(), name, class: newClass, equip: {} };
   appData.chars.push(char);
-
   try {
     await saveBin(appData);
     goDetail(char.id);
@@ -383,37 +230,30 @@ async function createChar() {
   btn.disabled = false;
 }
 
-/* ── 캐릭터 상세 ── */
 function goDetail(id) {
   currentCharId = id;
   const char = appData.chars.find(c => c.id === id);
   if (!char) { goList(); return; }
-
   document.getElementById('detail-icon').textContent = CLASS_ICONS[char.class] || '?';
   document.getElementById('detail-name').textContent = char.name;
   document.getElementById('detail-class').textContent = char.class || '';
   document.getElementById('detail-status').textContent = '';
-
   EQ.forEach(k => {
     const el = document.getElementById('eq-' + k);
     if (el) el.value = char.equip?.[k] || '';
   });
-
   showPage('page-detail');
 }
 
-/* ── 장비 저장 ── */
 async function saveEquip() {
   const btn = document.getElementById('save-equip-btn');
   btn.innerHTML = '<span class="spinner"></span>저장 중...';
   btn.disabled = true;
-
   const char = appData.chars.find(c => c.id === currentCharId);
   if (char) {
     char.equip = {};
     EQ.forEach(k => { char.equip[k] = document.getElementById('eq-' + k)?.value.trim() || ''; });
   }
-
   try {
     await saveBin(appData);
     setStatus('detail-status', '✓ 저장되었습니다', 'ok');
@@ -424,7 +264,6 @@ async function saveEquip() {
   btn.disabled = false;
 }
 
-/* ── 캐릭터 삭제 ── */
 async function deleteChar() {
   if (!confirm('이 캐릭터를 삭제할까요?')) return;
   appData.chars = appData.chars.filter(c => c.id !== currentCharId);
@@ -432,7 +271,6 @@ async function deleteChar() {
   goList();
 }
 
-/* ── 상태 메시지 ── */
 function setStatus(id, msg, type) {
   const s = document.getElementById(id);
   if (!s) return;
@@ -440,46 +278,28 @@ function setStatus(id, msg, type) {
   if (type === 'ok') setTimeout(() => { s.textContent = ''; s.className = 'status'; }, 2500);
 }
 
-/* ── 초기화 ── */
 async function init() {
-  showPage('page-loading');
-  apiKey = apiKey || localStorage.getItem("d4-apikey") || "";
-  binId  = localStorage.getItem('d4-binid')  || '';
-
-  if (false && !apiKey) {
-    showPage('page-setup');
-    return;
-  }
-
   try {
     if (binId) {
       const saved = await loadBin();
       appData = saved || { chars: [] };
-      goList();
     } else {
-      // binId 없으면 기존 bin 찾기
       const listRes = await fetch('https://api.jsonbin.io/v3/b?sortBy=createdAt&sortOrder=desc', {
-        headers: { 'X-Master-Key': apiKey }
+        headers: { 'X-Master-Key': API_KEY }
       });
-      if (!listRes.ok) throw new Error('invalid key');
       const bins = await listRes.json();
-      const existing = Array.isArray(bins) ? bins.find(b => b.metadata && b.metadata.name === 'D4-Tracker') : null;
+      const existing = Array.isArray(bins) ? bins.find(b => b.metadata?.name === 'D4-Tracker') : null;
       if (existing) {
         binId = existing.metadata.id;
         localStorage.setItem('d4-binid', binId);
         const saved = await loadBin();
         appData = saved || { chars: [] };
-      } else {
-        await saveBin({ chars: [] });
-        appData = { chars: [] };
       }
-      goList();
     }
   } catch(e) {
-    localStorage.removeItem('d4-apikey');
-    localStorage.removeItem('d4-binid');
-    showPage('page-setup');
+    console.log('init error:', e);
   }
+  goList();
 }
 
 init();
